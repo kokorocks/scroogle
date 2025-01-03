@@ -1,5 +1,5 @@
 import scratchattach as scratch
-import json
+import os
 
 # List of Scratch usernames
 usernames = [
@@ -19,15 +19,23 @@ usernames = [
     "RememberNovember", "alphabetica", "ScratchStang", "Pickle-Productions", "-AmberKitti", 
     "kewl999", "x__0", "pandakun", "jackol1234567", "-PhantomAnimations-", "Artisticat", 
     "bubble103", "lightblue012", "0014049", "cutupuss", "scmbl*", "RacingHans", 
-    "Za-Chary*", "PetalsSilversteam", "Canarysong", "ScratchDesignStudio", "AnaniAnime", "xamuil2", "Yllie", "FaceOs", "amee-", "QuaXX", "gobo", "Eloctrasyd" 
+    "Za-Chary*", "PetalsSilversteam", "Canarysong", "ScratchDesignStudio", "AnaniAnime", "xamuil2", "Yllie", "FaceOs", "amee-", "QuaXX", "gobo", "Eloctrasyd"
 ]
 
-# Output file
-output_file = "scratch_projects.json"
+# Output files
+titles_file = "project_titles.txt"
+ids_file = "project_ids.txt"
+usernames_file = "usernames.txt"
+loves_file = "loves.txt"
+
+# Clear existing files
+open(titles_file, "w").close()
+open(ids_file, "w").close()
+open(usernames_file, "w").close()
+open(loves_file, "w").close()
 
 # Function to fetch projects for a user
 def get_user_projects(username):
-    user_data = {"username": username, "projects": []}
     try:
         # Create a User object
         user = scratch.get_user(username)
@@ -35,26 +43,26 @@ def get_user_projects(username):
         # Fetch projects from the user's profile
         projects = user.projects()
 
-        # Collect project details
-        for project in projects:
-            user_data["projects"].append({
-                "title": project.title,
-                "id": project.id,
-                "loves": project.loves
-            })
+        # Open all files and write data for each project
+        with open(titles_file, "a") as titles, open(ids_file, "a") as ids, open(usernames_file, "a") as usernames, open(loves_file, "a") as loves:
+            for project in projects:
+                # Write project title and ID to respective files
+                titles.write(f"{project.title}\n")
+                ids.write(f"{project.id}\n")
+                usernames.write(f"{username}\n")
+
+                # Write project ID and loves count to loves.txt
+                loves.write(f"{project.loves}\n")
+
     except Exception as e:
-        user_data["error"] = str(e)
-    return user_data
+        print(f"Error fetching projects for {username}: {e}")
 
 # Fetch projects for all users
-all_users_data = []
 for username in usernames:
     print(f"Fetching projects for {username}...")
-    user_data = get_user_projects(username)
-    all_users_data.append(user_data)
+    get_user_projects(username)
 
-# Save data to JSON file
-with open(output_file, "w") as file:
-    json.dump(all_users_data, file, indent=4)
-
-print(f"Data saved to {output_file}")
+print(f"Project titles saved to {titles_file}")
+print(f"Project IDs saved to {ids_file}")
+print(f"Usernames saved to {usernames_file}")
+print(f"Loves data saved to {loves_file}")
