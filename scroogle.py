@@ -19,7 +19,8 @@ usernames = [
     "RememberNovember", "alphabetica", "ScratchStang", "Pickle-Productions", "-AmberKitti", 
     "kewl999", "x__0", "pandakun", "jackol1234567", "-PhantomAnimations-", "Artisticat", 
     "bubble103", "lightblue012", "0014049", "cutupuss", "scmbl*", "RacingHans", 
-    "Za-Chary*", "PetalsSilversteam", "Canarysong", "ScratchDesignStudio", "AnaniAnime", "xamuil2", "Yllie", "FaceOs", "amee-", "QuaXX", "gobo", "Eloctrasyd"
+    "Za-Chary*", "PetalsSilversteam", "Canarysong", "ScratchDesignStudio", "AnaniAnime", 
+    "xamuil2", "Yllie", "FaceOs", "amee-", "QuaXX", "gobo", "Eloctrasyd"
 ]
 
 # Output files
@@ -29,10 +30,11 @@ usernames_file = "usernames.txt"
 loves_file = "loves.txt"
 
 # Clear existing files
-open(titles_file, "w").close()
-open(ids_file, "w").close()
-open(usernames_file, "w").close()
-open(loves_file, "w").close()
+for file in [titles_file, ids_file, usernames_file, loves_file]:
+    open(file, "w").close()
+
+# To store all projects
+projects_data = []
 
 # Function to fetch projects for a user
 def get_user_projects(username):
@@ -43,16 +45,14 @@ def get_user_projects(username):
         # Fetch projects from the user's profile
         projects = user.projects()
 
-        # Open all files and write data for each project
-        with open(titles_file, "a") as titles, open(ids_file, "a") as ids, open(usernames_file, "a") as usernames, open(loves_file, "a") as loves:
-            for project in projects:
-                # Write project title and ID to respective files
-                titles.write(f"{project.title}\n")
-                ids.write(f"{project.id}\n")
-                usernames.write(f"{username}\n")
-
-                # Write project ID and loves count to loves.txt
-                loves.write(f"{project.loves}\n")
+        # Add each project's data to the list
+        for project in projects:
+            projects_data.append({
+                "username": username,
+                "title": project.title,
+                "id": project.id,
+                "loves": project.loves
+            })
 
     except Exception as e:
         print(f"Error fetching projects for {username}: {e}")
@@ -61,6 +61,17 @@ def get_user_projects(username):
 for username in usernames:
     print(f"Fetching projects for {username}...")
     get_user_projects(username)
+
+# Sort all project data by loves
+projects_data.sort(key=lambda x: x["loves"], reverse=True)
+
+# Write sorted data to respective files
+with open(titles_file, "w") as titles, open(ids_file, "w") as ids, open(usernames_file, "w") as usernames, open(loves_file, "w") as loves:
+    for project in projects_data:
+        titles.write(f"{project['title']}\n")
+        ids.write(f"{project['id']}\n")
+        usernames.write(f"{project['username']}\n")
+        loves.write(f"{project['loves']}\n")
 
 print(f"Project titles saved to {titles_file}")
 print(f"Project IDs saved to {ids_file}")
