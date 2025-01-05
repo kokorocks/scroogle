@@ -20,7 +20,13 @@ usernames = [
     "kewl999", "x__0", "pandakun", "jackol1234567", "-PhantomAnimations-", "Artisticat", 
     "bubble103", "lightblue012", "0014049", "cutupuss", "scmbl*", "RacingHans", 
     "Za-Chary*", "PetalsSilversteam", "Canarysong", "ScratchDesignStudio", "AnaniAnime", 
-    "xamuil2", "Yllie", "FaceOs", "amee-", "QuaXX", "gobo", "Eloctrasyd"
+    "xamuil2", "Yllie", "FaceOs", "amee-", "QuaXX", "gobo", "Eloctrasyd",'GonSanVi','DadOfMrLog',
+    "TheLogFather",'RokCoder',"BirdNan","PullJosh",'RacingAce','-Rex-','ggenije','04tmoody','awesome-llama',
+    'HowToLogic','123768631','xOnic','dn_scrtch','--Explosion--','-RISEN-','AnimationsScratch','uiopscratch327',
+    'ChromeCat_test','Raytracing','PutneyCat','Zro716','BamBozzle','Lokuin','TheGreenFlash','MasterAndras','Tacodiva7729',
+    'Finlay_Cool','LBMCompany','Chrome_Cat','LawsOfScienceChanger'
+    
+
 ]
 
 # Output files
